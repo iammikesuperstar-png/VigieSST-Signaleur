@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vigie SST</title>
+<meta name="theme-color" content="#003da5">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+<img src="colas.png" class="logo" alt="Logo Colas">
+<h1>AIDE-MÉMOIRE<br>SIGNALEUR ROUTIER</h1>
+<div class="info">
+<label for="userName">Nom du signaleur</label>
+<input id="userName" type="text" placeholder="Entrez votre nom">
+<label for="siteName">Nom du chantier</label>
+<input id="siteName" type="text" placeholder="Nom du chantier">
+<label for="weather">Météo</label>
+<select id="weather">
+<option value="Soleil">Soleil</option>
+<option value="Nuageux">Nuageux</option>
+<option value="Pluie">Pluie</option>
+<option value="Neige">Neige</option>
+<option value="Brouillard">Brouillard</option>
+</select>
+</div>
+<div id="questionArea" class="question-area hidden">
+<div id="questionText" class="question-text"></div>
+<div id="answerOptions" class="answer-options"></div>
+</div>
+<div id="summary" class="summary hidden"></div>
+<button id="actionButton">COMMENCER L'ANALYSE</button>
+<p class="install-note">Ouvrez le menu du navigateur pour installer l'application sur votre appareil.</p>
+</div>
+
+<script src="app.js"></script>
+</body>
+
+</html>

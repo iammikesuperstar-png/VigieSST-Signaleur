@@ -1,0 +1,21 @@
+{
+  "name": "Vigie SST",
+  "short_name": "Vigie",
+  "description": "Questionnaire PWA pour signaleurs routiers.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#003da5",
+  "icons": [
+    {
+      "src": "colas.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "colas.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
