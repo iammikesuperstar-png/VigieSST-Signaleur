@@ -1,4 +1,5 @@
-const cacheName = 'vigie-sst-cache-v1';
+// Bump the cache version when changing assets so clients fetch updated files
+const cacheName = 'vigie-sst-cache-v2';
 const assetsToCache = [
   '.',
   'index.html',
@@ -9,18 +10,21 @@ const assetsToCache = [
 ];
 
 self.addEventListener('install', event => {
+  // Activate this service worker immediately (don't wait)
+  self.skipWaiting();
   event.waitUntil(
     caches.open(cacheName).then(cache => cache.addAll(assetsToCache))
   );
 });
 
 self.addEventListener('activate', event => {
+  // Take control of clients as soon as this worker activates
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
         keys.filter(key => key !== cacheName).map(key => caches.delete(key))
       )
-    )
+    ).then(() => self.clients.claim())
   );
 });
 
