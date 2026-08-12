@@ -6,6 +6,8 @@ const questionText = document.getElementById('questionText');
 const answerOptions = document.getElementById('answerOptions');
 const summaryBox = document.getElementById('summary');
 const actionButton = document.getElementById('actionButton');
+const nonConformModal = document.getElementById('nonConformModal');
+const modalCloseButton = document.getElementById('modalCloseButton');
 
 const questions = [
     { id: 'caucus', text: 'Ai-je bien compris le déroulement des opérations expliquées lors du caucus ?', options: ['Oui', 'Non'] },
@@ -82,6 +84,10 @@ function renderQuestion() {
             Array.from(answerOptions.children).forEach(child => child.classList.remove('selected'));
             button.classList.add('selected');
             saveState();
+            // Si la réponse est 'Non' pour une des 13 questions, afficher la note pop-up
+            if (option === 'Non' && nonConformModal) {
+                nonConformModal.classList.remove('hidden');
+            }
             actionButton.disabled = false;
         });
         answerOptions.appendChild(button);
@@ -89,6 +95,17 @@ function renderQuestion() {
 
     actionButton.textContent = state.currentIndex === 0 ? 'SUIVANT' : 'SUIVANT';
     actionButton.disabled = !state.responses[question.id];
+}
+
+// Gestion du modal de non-conformité
+if (modalCloseButton && nonConformModal) {
+    modalCloseButton.addEventListener('click', () => {
+        nonConformModal.classList.add('hidden');
+    });
+    // Fermer le modal en appuyant sur Echap
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') nonConformModal.classList.add('hidden');
+    });
 }
 
 const reportEmail = 'michael.fontaine@colasquebec.ca';
