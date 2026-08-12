@@ -170,3 +170,23 @@ button:disabled {
     cursor: pointer;
 }
 .modal.hidden { display: none; }
+
+/* Update banner styles */
+.update-banner {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 18px;
+    background: #fff8e1;
+    color: #333;
+    padding: 10px 14px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    z-index: 10000;
+}
+.update-banner .update-actions { display: flex; gap: 8px; }
+.update-banner button.small { padding: 8px 10px; font-size: 14px; border-radius: 8px; }
+.update-banner.hidden { display: none; }

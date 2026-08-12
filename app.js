@@ -205,7 +205,65 @@ if (state.started && state.currentIndex < questions.length) {
 }
 
 if ('serviceWorker' in navigator) {
+    let swRegistration = null;
+    let shouldReloadAfterControllerChange = false;
+
+    function showUpdateBanner() {
+        const banner = document.getElementById('updateBanner');
+        if (banner) banner.classList.remove('hidden');
+    }
+    function hideUpdateBanner() {
+        const banner = document.getElementById('updateBanner');
+        if (banner) banner.classList.add('hidden');
+    }
+
     navigator.serviceWorker.register('sw.js')
-        .then(() => console.log('Service worker enregistré.'))
+        .then(reg => {
+            swRegistration = reg;
+            console.log('Service worker enregistré.');
+
+            if (reg.waiting) {
+                showUpdateBanner();
+            }
+
+            reg.addEventListener('updatefound', () => {
+                const newWorker = reg.installing;
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed') {
+                        if (navigator.serviceWorker.controller) {
+                            showUpdateBanner();
+                        }
+                    }
+                });
+            });
+        })
         .catch(err => console.warn('Impossible d\'enregistrer le service worker.', err));
+
+    // When the active service worker controlling the page changes, reload if requested
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (shouldReloadAfterControllerChange) {
+            window.location.reload();
+        }
+    });
+
+    // Banner buttons
+    const reloadBtn = document.getElementById('updateReload');
+    const dismissBtn = document.getElementById('updateDismiss');
+    if (reloadBtn) {
+        reloadBtn.addEventListener('click', () => {
+            if (swRegistration && swRegistration.waiting) {
+                // Ask the waiting worker to skip waiting
+                swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                shouldReloadAfterControllerChange = true;
+            } else {
+                // fallback: reload page
+                window.location.reload();
+            }
+        });
+    }
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', () => {
+            hideUpdateBanner();
+        });
+    }
 }
